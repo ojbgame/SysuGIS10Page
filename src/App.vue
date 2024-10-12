@@ -1,14 +1,14 @@
 <template>
   <el-container style="height: 100vh;">
     <!-- 顶部菜单按钮，左上角 -->
-    <el-header style="background-color: #409EFF; color: black; display: flex; align-items: center;">
+    <el-header style="background-color: #409EFF; color: white; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 100;">
       <el-button @click="drawerVisible = true" type="primary" :icon="Menu" circle  v-if="isMobile"></el-button>
       <h1 style="margin-left: 20px;">毕业通讯录</h1>
     </el-header>
 
-    <el-container>
+    <el-container :style="isMobile ? '' : 'margin-left: 250px; margin-top: 60px;'">
       <!-- 侧边菜单栏：桌面上使用Aside，移动设备使用Drawer -->
-      <el-aside width="250px" style="background-color: #f9f9f9;" v-if="!isMobile">
+      <el-aside width="250px" style="background-color: #f9f9f9; position: fixed; top: 60px; bottom: 0; left: 0; z-index: 90;"  v-if="!isMobile">
         <el-input v-model="searchName" placeholder="搜索姓名" clearable style="margin: 10px; width: 90%;"></el-input>
         <el-menu
           :default-active="activeClass"
