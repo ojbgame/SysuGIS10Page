@@ -3,7 +3,7 @@
     <!-- 顶部菜单按钮，左上角 -->
     <el-header class="md-header">
       <el-button @click="drawerVisible = true" type="primary" :icon="Menu" circle  v-if="isMobile" class="menu-btn"></el-button>
-      <h1>毕业通讯录</h1>
+      <h1>SYSU 地信专业10周年通讯录</h1>
     </el-header>
 
     <el-container :style="isMobile ? '' : 'margin-left: 250px; margin-top: 64px;'">
@@ -182,6 +182,14 @@ onBeforeUnmount(() => {
 </script>
 
 <style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+
 /* Material Design Header */
 .md-header {
   background-color: #6200EE;
@@ -223,7 +231,7 @@ h1 {
 /* Material Design Input */
 .md-input {
   margin: 10px;
-  width: 90%;
+  width: 80%;
   border-radius: 4px;
 }
 
