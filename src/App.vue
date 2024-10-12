@@ -1,21 +1,21 @@
 <template>
-  <el-container style="height: 100vh;">
+  <el-container style="height: 100vh; background-color: #fafafa;">
     <!-- 顶部菜单按钮，左上角 -->
-    <el-header style="background-color: #409EFF; color: white; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 100;">
-      <el-button @click="drawerVisible = true" type="primary" :icon="Menu" circle  v-if="isMobile"></el-button>
-      <h1 style="margin-left: 20px;">毕业通讯录</h1>
+    <el-header class="md-header">
+      <el-button @click="drawerVisible = true" type="primary" :icon="Menu" circle  v-if="isMobile" class="menu-btn"></el-button>
+      <h1>毕业通讯录</h1>
     </el-header>
 
-    <el-container :style="isMobile ? '' : 'margin-left: 250px; margin-top: 60px;'">
+    <el-container :style="isMobile ? '' : 'margin-left: 250px; margin-top: 64px;'">
       <!-- 侧边菜单栏：桌面上使用Aside，移动设备使用Drawer -->
-      <el-aside width="250px" style="background-color: #f9f9f9; position: fixed; top: 60px; bottom: 0; left: 0; z-index: 90;"  v-if="!isMobile">
-        <el-input v-model="searchName" placeholder="搜索姓名" clearable style="margin: 10px; width: 90%;"></el-input>
+      <el-aside class="md-aside" width="250px" v-if="!isMobile">
+        <el-input v-model="searchName" placeholder="搜索姓名" clearable class="md-input"></el-input>
         <el-menu
           :default-active="activeClass"
           @select="handleClassChange"
-          background-color="#f0f0f0"
+          background-color="#ffffff"
           text-color="#333"
-          active-text-color="#409EFF"
+          active-text-color="#6200EE"
         >
           <el-submenu
             v-for="(students, className) in groupedContacts"
@@ -24,7 +24,7 @@
           >
             <template #title>{{ className }}</template>
             <el-menu-item
-              v-for="student,  in filteredContacts(students)"
+              v-for="student in filteredContacts(students)"
               :index="student.学号"
               :key="student.学号"
               @click="scrollToCard(student.学号)"
@@ -43,14 +43,15 @@
         :with-header="true"
         size="60%"
         v-if="isMobile"
+        class="md-drawer"
       >
-        <el-input v-model="searchName" placeholder="搜索姓名" clearable style="margin-bottom: 10px;"></el-input>
+        <el-input v-model="searchName" placeholder="搜索姓名" clearable class="md-input"></el-input>
         <el-menu
           :default-active="activeClass"
           @select="handleClassChange"
-          background-color="#f0f0f0"
+          background-color="#ffffff"
           text-color="#333"
-          active-text-color="#409EFF"
+          active-text-color="#6200EE"
         >
           <el-submenu
             v-for="(students, className) in groupedContacts"
@@ -59,7 +60,7 @@
           >
             <template #title>{{ className }}</template>
             <el-menu-item
-              v-for="student,  in filteredContacts(students)"
+              v-for="student in filteredContacts(students)"
               :index="student.学号"
               :key="student.学号"
               @click="scrollToCard(student.学号); drawerVisible = false"
@@ -71,9 +72,9 @@
       </el-drawer>
 
       <!-- 主体内容，展示所有联系人卡片 -->
-      <el-main style="overflow-y: auto;">
-        <div v-for="student,  in contacts" :key="student.学号" :id="student.学号" class="student-card">
-          <el-card class="box-card" shadow="hover">
+      <el-main class="md-main">
+        <div v-for="student in contacts" :key="student.学号" :id="student.学号" class="student-card">
+          <el-card class="box-card md-card" shadow="hover">
             <h2>{{ student.姓名 }}</h2>
             <p><strong>学号:</strong> {{ student.学号 }}</p>
             <p><strong>所属班级:</strong> {{ student.所属班级 }}</p>
@@ -90,11 +91,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-
-
-import {
-  Menu
-} from '@element-plus/icons-vue'
+import { Menu } from '@element-plus/icons-vue'
 
 // 联系人数据
 const contacts = [
@@ -130,7 +127,6 @@ const contacts = [
 // 状态数据
 const searchName = ref('')
 const activeClass = ref('地信2班')
-//const selectedContact = ref(null)
 const drawerVisible = ref(false)
 const isMobile = ref(false)
 
@@ -186,38 +182,75 @@ onBeforeUnmount(() => {
 </script>
 
 <style>
+/* Material Design Header */
+.md-header {
+  background-color: #6200EE;
+  color: white;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 h1 {
   margin: 0;
-  font-size: 22px;
+  font-size: 24px;
+  font-weight: 500;
   color: white;
 }
 
+/* Material Design Drawer */
+.md-drawer {
+  background-color: #ffffff;
+}
+
+/* Material Design Aside */
+.md-aside {
+  background-color: #ffffff;
+  border-right: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: fixed;
+  top: 60px;
+  bottom: 0;
+  left: 0;
+  z-index: 90;
+}
+
+/* Material Design Input */
+.md-input {
+  margin: 10px;
+  width: 90%;
+  border-radius: 4px;
+}
+
+/* Material Design Card */
+.md-card {
+  border-radius: 8px;
+  margin: 16px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .student-card {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
-.box-card {
-  margin-top: 20px;
-  width: 100%;
+.el-main {
+  background-color: #fafafa;
+  padding: 20px;
 }
 
-.el-header {
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-}
-
-.el-input {
-  width: 100%;
-}
-
-.menu-toggle {
-  text-align: right;
+.el-button {
+  background-color: #6200EE;
+  border-radius: 50%;
 }
 
 @media (max-width: 768px) {
   /* 移动设备上隐藏Aside */
-  el-aside {
+  .el-aside {
     display: none;
   }
 }
